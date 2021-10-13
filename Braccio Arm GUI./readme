@@ -1,0 +1,4 @@
+# The following files are crucial to this GUI to work. This GUI has six slide bars, radio buttons, and buttons that perform different actions to the Braccio arm.
+# The python program is responsible for not only the GUI, but the angles for set positions and other aspects.
+# The arduino program is responsible for receiving information from the python program in order to move the motors on the arm.
+# I'm leaving this here in case a future program/project is assigned that requires a GUI that does this.
