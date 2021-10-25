@@ -8,30 +8,26 @@ Servo wrist_rot;
 Servo wrist_ver;
 Servo gripper;
 
-int a, b, c, d, e, f;
-
 const byte numChars = 32;
 char receivedChars[numChars];
 char tempChars[numChars];
 char messageFromPC[numChars] = {0};
 
-int MotorOne = 0;
-int MotorTwo = 0;
-int MotorThree = 0;
-int MotorFour = 0;
-int MotorFive = 0;
-int MotorSix = 0;
+int m1 = 0;
+int m2 = 0;
+int m3 = 0;
+int m4 = 0;
+int m5 = 0;
+int m6 = 0;
 
 boolean newData = false;
 
 //============
 
 void setup() {
+    pinMode(13, OUTPUT);
     Serial.begin(115200);
-    //Serial.println("This demo expects 6 pieces of data - text, integers for each motor");
-    //Serial.println("Enter data in this style <1, 2, 3, 4, 5, 6>  ");
     Braccio.begin();
-    Braccio.ServoMovement(20, 90, 90, 90, 90, 90, 73);
 }
 
 //============
@@ -43,7 +39,6 @@ void loop() {
             // this temporary copy is necessary to protect the original data
             //   because strtok() used in parseData() replaces the commas with \0
         parseData();
-        Braccio.ServoMovement(20, MotorOne, MotorTwo, MotorThree, MotorFour, MotorFive, MotorSix);
         showParsedData();
         newData = false;
     }
@@ -93,22 +88,22 @@ void parseData() {      // split the data into its parts
     strcpy(messageFromPC, strtokIndx);    // copy it to messageFromPC
 
     strtokIndx = strtok(NULL, ",");
-    MotorOne = atoi(strtokIndx);
+    m1 = atoi(strtokIndx);
     
     strtokIndx = strtok(NULL, ",");
-    MotorTwo = atoi(strtokIndx);     // convert this part to a float
+    m2 = atoi(strtokIndx);     
 
     strtokIndx = strtok(NULL, ",");
-    MotorThree = atoi(strtokIndx);
+    m3 = atoi(strtokIndx);
 
     strtokIndx = strtok(NULL, ",");
-    MotorFour = atoi(strtokIndx);
+    m4 = atoi(strtokIndx);
 
     strtokIndx = strtok(NULL, ",");
-    MotorFive = atoi(strtokIndx);
+    m5 = atoi(strtokIndx);
 
     strtokIndx = strtok(NULL, ",");
-    MotorSix = atoi(strtokIndx);
+    m6 = atoi(strtokIndx);
 
 }
 
@@ -116,17 +111,38 @@ void parseData() {      // split the data into its parts
 
 void showParsedData() {
 
-    Serial.print("Angle: ");
-    Serial.println(MotorOne);
-    Serial.print("Angle: ");
-    Serial.println(MotorTwo);
-    Serial.print("Angle: ");
-    Serial.println(MotorThree);
-    Serial.print("Angle: ");
-    Serial.println(MotorFour);
-    Serial.print("Angle: ");
-    Serial.println(MotorFive);
-    Serial.print("Angle: ");
-    Serial.println(MotorSix);
+    if (strcmp("i", messageFromPC) == 0) {
+      Serial.println("Ready!");
+      Serial.println(m1);
+      Serial.println(m2);
+      Serial.println(m3);
+      Serial.println(m4);
+      Serial.println(m5);
+      Serial.println(m6);
+    }
+
+    if (strcmp("H", messageFromPC) == 0) {
+      digitalWrite(13, HIGH);
+    }
+
+    if (strcmp("m1", messageFromPC) == 0) {
+      Braccio.ServoMovement(20, m1, m2, m3, m4, m5, m6);
+      Serial.println(m1);
+    }
+
+    if (strcmp("p1", messageFromPC) == 0) {
+      Braccio.ServoMovement(20, m1, m2, m3, m4, m5, m6);
+
+    }
+
+    if (strcmp("p2", messageFromPC) == 0) {
+      Braccio.ServoMovement(20, m1, m2, m3, m4, m5, m6);
+
+    }
+
+    if (strcmp("p3", messageFromPC) == 0) {
+      Braccio.ServoMovement(20, m1, m2, m3, m4, m5, m6);
+  
+    }
 
 }
